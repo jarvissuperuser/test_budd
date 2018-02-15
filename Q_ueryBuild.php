@@ -20,9 +20,10 @@ class Q_ueryBuild
   {
     try {
       $this->init();
+        
     } catch (Exception $e) {
       $this->db = null;
-      echo json_encode([$e,$e->getTraceAsString()]);
+      echo json_encode([$e,$e->getTrace(),$e->getMessage()]);
       //error_log($e);
     }
   }
@@ -69,15 +70,18 @@ class Q_ueryBuild
     // TODO: implement here
     $this->setdsn();
     if (!file_exists("ready.x")) {
-      $this->db = new PDO($this->dsn0, base64_decode($this->user), base64_decode($this->pwd));
+        //SQLite3::
+      //$this->db = new PDO($this->dsn0, base64_decode($this->user), base64_decode($this->pwd));
+      $this->db = new PDO("sqlite:" .__DIR__.DIRECTORY_SEPARATOR."sql.db");
       $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-      $sql = file_get_contents('classes/sql.sql');
+      $sql = file_get_contents('classes\\sql.sql');
       $this->db->exec($sql);
       $fil = fopen("ready.x", 'w');
       fwrite($fil, $this->db->errorcode());
       fclose($fil);
     }
-    $this->db = new PDO($this->dsn1, base64_decode($this->user), base64_decode($this->pwd));
+    //$this->db = new PDO($this->dsn1, base64_decode($this->user), base64_decode($this->pwd));
+          $this->db = new PDO("sqlite:" .__DIR__.DIRECTORY_SEPARATOR."sql.db");
 		$this->db->setAttribute(PDO::ERRMODE_EXCEPTION, 1);
   }
 
