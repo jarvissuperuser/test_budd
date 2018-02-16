@@ -52,3 +52,35 @@ if (filter_input(INPUT_GET, "s")=="uu"){
     $r = $s->execute();
     echo json_encode([$s->errorCode(),$r]);
 }
+
+$token = filter_input(INPUT_GET, "token");
+try{
+$c = curl_init();
+$root = "http://localhost/dgmtv/";
+$url = $root."rstpswd.php?t=".$token;
+curl_setopt($c, CURLOPT_URL,$url);
+curl_setopt($c, CURLOPT_HEADER, 0);
+curl_exec($c);
+curl_close($c);
+} catch (Exception $e)
+{
+	echo $e->getTraceAsString();
+}
+
+
+
+if ( (strlen(filter_input(INPUT_GET, "t"))>0)){
+	$token = filter_input(INPUT_GET, "t");
+	//echo base64_decode(str_rot13($token));
+	$json = base64_decode(str_rot13($token));
+	$obj = json_decode($json);
+	
+}
+
+if ( (strlen(filter_input(INPUT_GET, "t"))>0)){
+	$token = filter_input(INPUT_GET, "t");
+	//echo base64_decode(str_rot13($token));
+	$json = base64_decode(str_rot13($token));
+	$obj = json_decode($json);
+	
+}
