@@ -54,7 +54,7 @@ if (filter_input(INPUT_GET, "s") == "iu") {
 }
 if (filter_input(INPUT_GET, "s") == "uu") {
 	$e = filter_input(INPUT_GET, "e");
-	$id = selU($e, $db);
+	$id = selU($e, $db,"users");
 	$what = "password= '" . filter_input(INPUT_GET, "p") . "'";
 	$qry = $db->update("users", $what, $id);
 	$s = $db->transaction($qry);
