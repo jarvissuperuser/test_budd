@@ -18,9 +18,9 @@ function valuesToString($cols) {
 	return substr($what, 0, strlen($what) - 1);
 }
 
-function selU($e, $db) {
+function selU($e, $db,$tbl) {
 	//$db = new Q_ueryBuild();
-	$qry = $db->slct("id", "users", "email='$e'");
+	$qry = $db->slct("id",$tbl , "email='$e'");
 	$s = $db->transaction($qry);
 	$s->execute();
 	return $s->fetch()["id"];
@@ -45,9 +45,10 @@ if (filter_input(INPUT_GET, "s") == "iu") {
 			echo json_encode([$db->db->lastInsertId(), $r]);
 		}
 		else{
-			
+			echo json_encode(["msg"=>"user not added"]);
 		}
 	} catch (Exception $e) {
+		$db->db->rollBack();
 		echo json_encode(["msg"=>$e->getMessage()]);
 	}
 }
