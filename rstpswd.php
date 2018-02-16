@@ -35,14 +35,20 @@ if (filter_input(INPUT_GET, "s") == "gu") {
 }
 if (filter_input(INPUT_GET, "s") == "iu") {
 	try {
-		$cols = ["email", "password"];
+		$tbl = "users";
+		$cols = ["email", "password","name_"];
 		$vals = valuate([], $cols);
-		$qry = $db->insert("users", $cols, $vals);
-		$s = $db->transaction($qry);
-		$r = $s->execute();
-		echo json_encode([$db->db->lastInsertId(), $r]);
+		if ($vals[1]== filter_input(INPUT_GET, "c_password")){
+			$qry = $db->insert($tbl , $cols, $vals);
+			$s = $db->transaction($qry);
+			$r = $s->execute();
+			echo json_encode([$db->db->lastInsertId(), $r]);
+		}
+		else{
+			
+		}
 	} catch (Exception $e) {
-		echo $e->getMessage();
+		echo json_encode(["msg"=>$e->getMessage()]);
 	}
 }
 if (filter_input(INPUT_GET, "s") == "uu") {
@@ -71,9 +77,9 @@ if ((strlen(filter_input(INPUT_GET, "t")) > 0)) {
 	echo json_encode([$s->errorCode(), $r]);
 }
 
-if ((strlen(filter_input(INPUT_GET, "t")) > 0)) {
-	$token = filter_input(INPUT_GET, "t");
-	//echo base64_decode(str_rot13($token));
-	$json = base64_decode(str_rot13($token));
-	$obj = json_decode($json);
-}
+//if ((strlen(filter_input(INPUT_GET, "t")) > 0)) {
+//	$token = filter_input(INPUT_GET, "t");
+//	//echo base64_decode(str_rot13($token));
+//	$json = base64_decode(str_rot13($token));
+//	$obj = json_decode($json);
+//}
